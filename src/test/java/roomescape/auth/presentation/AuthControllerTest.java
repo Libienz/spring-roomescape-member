@@ -4,6 +4,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.cookie;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -67,5 +68,16 @@ class AuthControllerTest {
                         .cookie(mockCookie))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("리비"));
+    }
+
+    @DisplayName("로그 아웃 요청 시 쿠키를 만료시켜 로그 아웃한다")
+    @Test
+    void should_expire_cookie_when_logout_requested() throws Exception {
+        MockCookie mockCookie = new MockCookie("token", "mock value");
+
+        mockMvc.perform(post("/logout")
+                        .cookie(mockCookie))
+                .andExpect(status().isOk())
+                .andExpect(cookie().maxAge("token", 0));
     }
 }

@@ -35,10 +35,9 @@ class AuthServiceTest {
     private MemberRepository memberRepository;
 
 
-    @DisplayName("올바른 로그인 요청이 들어오면 토큰을 반환한다")
+    @DisplayName("로그인 요청에 성공하면 토큰을 반환한다")
     @Test
     void should_return_token_when_valid_login_request_arrived() {
-
         when(memberRepository.findByEmail(any(String.class))).thenReturn(Optional.of(MemberFixture.MEMBER_ID_1));
         when(jwtTokenProvider.createToken(any(Member.class))).thenReturn(DUMMY_TOKEN);
 
@@ -50,7 +49,7 @@ class AuthServiceTest {
     @Test
     void should_throw_exception_when_email_not_exist() {
         when(memberRepository.findByEmail(any(String.class))).thenReturn(Optional.empty());
-        LoginRequest request = new LoginRequest("aa@gmail.com", "123");
+        LoginRequest request = new LoginRequest("noSignedUp@gmail.com", "123");
 
         assertThatThrownBy(() -> authService.login(request))
                 .isInstanceOf(NoSuchRecordException.class);
