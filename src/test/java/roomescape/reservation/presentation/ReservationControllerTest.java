@@ -16,8 +16,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import roomescape.global.AdminHandlerInterceptor;
-import roomescape.global.AuthenticatedMemberArgumentResolver;
+import roomescape.auth.AdminHandlerInterceptor;
+import roomescape.auth.AuthenticatedMemberArgumentResolver;
 import roomescape.reservation.service.ReservationService;
 
 @WebMvcTest(ReservationController.class)
